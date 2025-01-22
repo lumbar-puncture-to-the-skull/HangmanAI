@@ -5,6 +5,18 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/*
+This AI works by using the information it gains to narrow down a list of
+potential solutions. Then, it counts all occurences of each letter from A-Z in
+each word, and then guesses the letter that appears most often in the list. 
+
+A noticable flaw exists, in that it counts all occurences of each letter in each
+word, instead of simply counting up by one for each word with a certain letter,
+but implementing that would be a pain, and this works fine.
+
+Never underestimate the laziness of your average programmer.
+*/
+
 public class HangmanAI {
     public static void main(String[] args) {
         ArrayList<String> words = new ArrayList();
@@ -51,6 +63,7 @@ public class HangmanAI {
             for (int i = 0; i < wordLength; i++) covered.add(true);
             
             String guessedLetters = "";
+            String wrongLetters = "";
             
             boolean aiWin = false;
             
@@ -100,6 +113,7 @@ public class HangmanAI {
                 System.out.println("There are " + countInWord + " " + guessedLetter + "s in the word.");
                 if (countInWord == 0) {
                     wrongGuesses--;
+                    wrongLetters += guessedLetter;
                     System.out.println("Incorrect guess! The AI has " + wrongGuesses + " more incorrect guesses.");
                 }
                 System.out.println();
@@ -124,7 +138,8 @@ public class HangmanAI {
                 for (int i = 0; i < viableWords.size(); i++) {
                     boolean viable = true;
                     for (int j = 0; j < wordLength; j++) {
-                        if ((guessWord.charAt(j) == guessedLetter && viableWords.get(i).charAt(j) != guessedLetter)
+                        if ((!wrongLetters.isEmpty() && viableWords.get(i).matches("[" + wrongLetters + "]"))
+                                || (guessWord.charAt(j) == guessedLetter && viableWords.get(i).charAt(j) != guessedLetter)
                                 || (guessWord.charAt(j) != guessedLetter && viableWords.get(i).charAt(j) == guessedLetter)) {
                             viable = false;
                             break;
