@@ -74,7 +74,7 @@ public class HangmanAI {
                 // Erasing already guessed letters
                 for (int i = 0; i < guessedLetters.length(); i++) {
                     int index = (int)guessedLetters.charAt(i) - 65;
-                    letterCounts[index] = 0;
+                    letterCounts[index] = -1;
                 }
                 
                 // Finding most common unguessed letter among viable words
@@ -136,6 +136,10 @@ public class HangmanAI {
                         i--;
                     }
                 }
+                
+                System.out.print("Press enter to continue: ");
+                input.nextLine();
+                System.out.println();
             }
             
             System.out.println("The AI " + (aiWin ? "wins" : "loses") + "!\n");
